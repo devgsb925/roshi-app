@@ -8,41 +8,67 @@
   font-weight: normal;
 }
 
-/* .text-header  */
+/* SECTION .text-header  */
+.text-header {
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 120%;
+}
 h1 {
   font-size: 36px;
   font-weight: 600;
   line-height: 120%;
 }
 
-/* .text-title  */
+/* SECTION .text-title  */
+.text-title {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 120%;
+}
 h2 {
   font-size: 18px;
   font-weight: 700;
   line-height: 120%;
 }
 
-/* .text-subtitle  */
+/* SECTION .text-subtitle  */
+.text-subtitle {
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 140%;
+}
 h3 {
   font-size: 16px;
   font-weight: 300;
   line-height: 140%;
 }
 
-/* .text-small  */
+/* SECTION .text-small  */
+.text-small {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 120%;
+}
 h4 {
   font-size: 14px;
   font-weight: 400;
   line-height: 120%;
 }
 
-/* .text-normal  */
+/* SECTION .text-normal  */
+.text-normal {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 120%;
+}
 p {
   font-size: 14px;
   font-weight: 700;
   line-height: 120%;
 }
 
+/* SECTION Recuse class */
 .flex-center {
   display: flex;
   justify-content: center;
@@ -50,5 +76,9 @@ p {
 }
 
 .container {
-  padding: 0 8px;
+  padding: 0 16px;
+}
+
+.text-center {
+  text-align: center;
 }

@@ -17,3 +17,10 @@
 .text-white {
   color: var(--color-blue);
 }
+
+.text-gradient {
+  color: transparent;
+  background: linear-gradient(0deg, #ff8c08 0%, #ff9708 18%, #ffb708 70%, #ffc308 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}

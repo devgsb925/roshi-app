@@ -20,17 +20,20 @@ defineProps({
 </script>
 
 <template>
-  <div class="prediction">
+  <section class="prediction">
     <img class="prediction-banner" :src="bannerUrl" :alt="title" />
+
     <!-- TITLE -->
-    <h2>{{ title }}</h2>
-    <div class="prediction-dateTime">
-      <!-- date -->
-      <h4>{{ date }}</h4>
-      <!-- time -->
-      <h4>{{ time }}</h4>
+    <div class="container">
+      <h2>{{ title }}</h2>
+      <div class="prediction-dateTime">
+        <!-- date -->
+        <h4>{{ date }}</h4>
+        <!-- time -->
+        <h4>{{ time }}</h4>
+      </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <style scoped>
@@ -44,6 +47,7 @@ defineProps({
 .prediction .prediction-dateTime {
   margin-top: 8px;
   display: flex;
+  margin-bottom: 24px;
   justify-content: space-between;
 }
 </style>
