@@ -48,3 +48,7 @@ p {
   justify-content: center;
   align-items: center;
 }
+
+.container {
+  padding: 0 8px;
+}

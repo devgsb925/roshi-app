@@ -5,12 +5,12 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      component: () => import('../pages/layouts/DefaultLayout.vue'),
+      component: () => import('@/components/pages/layouts/DefaultLayout.vue'),
       children: [
         {
           path: '/',
           name: 'main.page',
-          component: () => import('../pages/MainPage.vue')
+          component: () => import('@/components/pages/PredictionPage.vue')
         }
       ]
     }

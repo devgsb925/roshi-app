@@ -43,5 +43,6 @@ defineOptions({
 
 .btn-secondary {
   border: 1px solid var(--color-blue);
+  color: var(--color-gray);
 }
 </style>

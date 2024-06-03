@@ -1,12 +1,14 @@
 <script lang="ts" setup>
 import { RouterView } from 'vue-router'
-import HeaderApp from '@/components/HeaderApp.vue'
+import DefaultLayoutHeader from '@/components/organisms/DefaultLayout__Header.vue'
 </script>
 
 <template>
   <div class="background">
-    <HeaderApp />
-    <RouterView />
+    <DefaultLayoutHeader />
+    <main>
+      <RouterView />
+    </main>
   </div>
 </template>
 
@@ -14,5 +16,6 @@ import HeaderApp from '@/components/HeaderApp.vue'
 .background {
   background-color: var(--color-background);
   color: white;
+  min-height: 100dvh;
 }
 </style>

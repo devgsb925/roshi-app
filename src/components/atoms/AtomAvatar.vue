@@ -1,23 +1,21 @@
+<script lang="ts" setup>
+defineProps<{
+  title: string
+  src: string
+}>()
+</script>
+
 <template>
   <div class="avatar">
-    <img :src="src" :alt="alt" />
+    <img :src="src" :alt="title" />
+    <p class="text-blue">{{ title }}</p>
   </div>
 </template>
 
-<script setup lang="ts">
-import { defineProps } from 'vue'
-
-defineProps({
-  src: { type: String, required: true },
-  alt: { type: String, default: 'Avatar' }
-})
-</script>
-
 <style scoped>
-.avatar img {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
+.avatar {
+  width: 60px;
+  height: 60px;
+  background-color: var(--color-white);
 }
 </style>
