@@ -1,0 +1,19 @@
+/* color palette from <https://github.com/vuejs/theme> */
+:root {
+  --color-blue: #3758f9;
+  --color-gray: #878d96;
+  --color-white: #ffffff;
+  --color-background: #12121c;
+  --color-green-mint: #5ecca3;
+  --color-gradient: #ff8c08 (0%), #ff9708 (18%), #ffb708 (70%), #ffc308 (100%);
+}
+
+.text-blue {
+  color: var(--color-blue);
+}
+.text-gray {
+  color: var(--color-blue);
+}
+.text-white {
+  color: var(--color-blue);
+}
