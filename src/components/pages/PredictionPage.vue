@@ -1,11 +1,9 @@
 <script lang="ts" setup>
-import PredictionBase from '@/components/organisms/PredictionBase.vue'
+import PredictionTemplate from '@/components/templates/PredictionTemplate.vue'
 </script>
 
 <template>
-  <div>
-    <PredictionBase />
-  </div>
+  <PredictionTemplate />
 </template>
 
 <style scoped></style>

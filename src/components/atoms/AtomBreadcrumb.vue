@@ -1,13 +1,8 @@
 <script setup lang="ts">
 import { defineProps } from 'vue'
 
-interface Link {
-  text: string
-  href: string
-}
-
 defineProps<{
-  links: Link[]
+  links: string[]
 }>()
 </script>
 
@@ -15,9 +10,7 @@ defineProps<{
   <div class="breadcrumb">
     <ul>
       <li v-for="(link, index) in links" :key="index" class="breadcrumb-item">
-        <a :href="link.href" class="breadcrumb-link text-normal">
-          {{ link.text }}
-        </a>
+        <a :href="link" class="breadcrumb-link text-normal"> Link 0{{ index + 1 }} </a>
         <span v-if="index !== links.length - 1" class="breadcrumb-separator text-normal">/</span>
       </li>
     </ul>

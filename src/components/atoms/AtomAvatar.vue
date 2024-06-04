@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
+import AtomImage from './AtomImage.vue'
 const props = defineProps<{
   title: string
   src: string
@@ -11,7 +12,7 @@ const titleNewLine = computed(() => props.title.replace(' ', '<br>'))
 <template>
   <div class="avatar">
     <div class="avatar-image flex-center">
-      <img :src="src" :alt="title" />
+      <AtomImage :src="src" :alt="title" />
     </div>
     <p class="text-blue" style="text-align: center" v-html="titleNewLine"></p>
   </div>

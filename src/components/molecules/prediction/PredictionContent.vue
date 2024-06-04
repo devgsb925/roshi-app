@@ -1,11 +1,9 @@
 <script lang="ts" setup>
 import AtomBreadcrumb from '@/components/atoms/AtomBreadcrumb.vue'
 
-const links = [
-  { text: 'Link 01', href: '#' },
-  { text: 'Link 02', href: '#' },
-  { text: 'Link 03', href: '#' }
-]
+defineProps<{
+  links: string[]
+}>()
 </script>
 
 <template>

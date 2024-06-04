@@ -10,11 +10,11 @@ defineProps<{
 <template>
   <div class="prediction-team-match">
     <!-- teamA -->
-    <AtomAvatar :src="teamA.imageUrl" :title="teamA.title" />
+    <AtomAvatar class="prediction-team-match__avatar" :src="teamA.imageUrl" :title="teamA.title" />
     <!-- vs image -->
     <img src="@/assets/images/versus.svg" alt="versus" />
     <!-- teamB -->
-    <AtomAvatar :src="teamB.imageUrl" :title="teamB.title" />
+    <AtomAvatar class="prediction-team-match__avatar" :src="teamB.imageUrl" :title="teamB.title" />
   </div>
 </template>
 
@@ -24,5 +24,9 @@ defineProps<{
   align-items: self-start;
   gap: 42px;
   justify-content: center;
+}
+
+.prediction-team-match .prediction-team-match__avatar {
+  width: 109px;
 }
 </style>

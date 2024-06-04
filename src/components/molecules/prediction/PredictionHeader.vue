@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import AtomImage from '@/components/atoms/AtomImage.vue'
+
 defineProps({
   bannerUrl: {
     type: String,
@@ -21,7 +23,7 @@ defineProps({
 
 <template>
   <section class="prediction">
-    <img class="prediction-banner" :src="bannerUrl" :alt="title" />
+    <AtomImage class="prediction-banner" :src="bannerUrl" :alt="title" />
 
     <!-- TITLE -->
     <div class="container">
@@ -30,7 +32,7 @@ defineProps({
         <!-- date -->
         <h4>{{ date }}</h4>
         <!-- time -->
-        <h4>{{ time }}</h4>
+        <h4>{{ time }} Time</h4>
       </div>
     </div>
   </section>
