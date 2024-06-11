@@ -1,6 +1,11 @@
 <script lang="ts" setup>
 import { reactive } from 'vue'
 
+defineProps({
+  loading: {
+    type: Boolean
+  }
+})
 const formState = reactive({
   username: 'mack-vi',
   password: 'fAAiv53c8K5Y'
@@ -25,7 +30,11 @@ const onFinish = async () => emits('finish', formState)
         name="username"
         :rules="[{ required: true, message: 'Please input your username!' }]"
       >
-        <a-input v-model:value="formState.username" placeholder="input username" />
+        <a-input
+          :readonly="loading"
+          v-model:value="formState.username"
+          placeholder="input username"
+        />
       </a-form-item>
 
       <a-form-item
@@ -33,11 +42,22 @@ const onFinish = async () => emits('finish', formState)
         name="password"
         :rules="[{ required: true, message: 'Please input your password!' }]"
       >
-        <a-input-password v-model:value="formState.password" placeholder="*********" />
+        <a-input-password
+          :readonly="loading"
+          v-model:value="formState.password"
+          placeholder="*********"
+        />
       </a-form-item>
 
       <a-form-item>
-        <a-button style="width: 100%" type="primary" html-type="submit">Sign-in</a-button>
+        <a-button
+          :loading="loading"
+          :disabled="loading"
+          style="width: 100%"
+          type="primary"
+          html-type="submit"
+          >Sign-in</a-button
+        >
       </a-form-item>
     </a-form>
   </a-card>

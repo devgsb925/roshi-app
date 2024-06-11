@@ -1,6 +1,6 @@
-import axios from 'axios'
-import { storage, StoreKeys } from '../storage.service'
-import type { AuthLoginResponse } from '@/model/auth.type'
+import axios, { HttpStatusCode } from 'axios'
+import { authService } from './auth.service'
+import router from '@/router'
 
 const baseAPI = 'http://127.0.0.1:3000'
 const headerDefault = {
@@ -30,14 +30,21 @@ export const API_URIs = {
 api.interceptors.request.use(
   function (config) {
     if (config.url !== API_URIs.SignIn) {
-      const auth = storage.get<AuthLoginResponse>(StoreKeys.User)
-      config.headers['Authorization'] = `Bearer ${auth?.accessToken}`
+      const token = authService.getToken()
+      console.log('🚀 ~ token:', token)
+      config.headers['Authorization'] = `Bearer ${token}`
     }
 
     return config
   },
-  function (error) {
-    // Do something with request error
+  async function (error) {
+    const originalRequest = error.config
+    if (error.response.status === 401 && originalRequest.url !== API_URIs.SignIn) {
+      router.push({ name: 'login.page' })
+      authService.clearToken()
+      return Promise.reject(error)
+    }
+    // if refresh token not failed
     return Promise.reject(error)
   }
 )

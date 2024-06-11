@@ -5,7 +5,7 @@ export type RouterContextMiddlewareType = {
   to: RouteLocationNormalized
   from: RouteLocationNormalized
   next?: Function
-  token?: string
+  token?: boolean
 }
 export async function authMiddleware({ token }: RouterContextMiddlewareType) {
   if (!token) {
@@ -20,11 +20,11 @@ export async function authMiddleware({ token }: RouterContextMiddlewareType) {
   }
 }
 
-export async function guestMiddleware({ token }: RouterContextMiddlewareType) {
+export async function managerMiddleware({ token }: RouterContextMiddlewareType) {
   if (token) {
     return {
       next: false,
-      name: '/prediction'
+      name: '/manager/prediction'
     }
   }
   return {

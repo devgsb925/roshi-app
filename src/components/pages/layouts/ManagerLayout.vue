@@ -1,9 +1,14 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { authService } from '@/shared/services/api/auth.service'
 import { RouterView, useRouter } from 'vue-router'
 const router = useRouter()
 
-const logout = () => router.push('/')
+const logout = () => {
+  authService.clearToken()
+  router.push({
+    name: 'login.page'
+  })
+}
 </script>
 
 <template>

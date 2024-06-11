@@ -1,21 +1,25 @@
 <script lang="ts" setup>
+import type { PredictionModelForm } from '@/model/prediction.type'
 import { useTeamStore } from '@/stores/useTeam.store'
-import { reactive } from 'vue'
+import { reactive, computed, ref } from 'vue'
 const teamStore = useTeamStore()
-const formState = reactive({
+const formState = ref<PredictionModelForm>({
   poster: 'bannerURL',
   oddDetail: 'teamA +1',
   introduction: 'lorem1',
   roshiPrediction: 'lorem 2',
-  teamLeft: 'teamB2',
+  teamLeft: null,
   links: ['', '', ''],
-  teamRight: 'teamA1',
+  teamRight: null,
   reliability: 0,
   schedule: null,
-  winner: 'teamA',
+  winner: '',
   onPoint: false,
-  archive: false
+  archive: true
 })
+
+const emits = defineEmits(['finish'])
+
 const message = '${label} is required'
 const getDefaultRule = (required = true, trigger = ['change', 'blur']) => [
   { required, message, trigger }
@@ -37,9 +41,25 @@ const rules = reactive({
   archive: getDefaultRule(false)
 })
 const onFinish = () => {
-  //
+  emits('finish', formState.value)
 }
 
+const oddDetailOptions = computed(() => {
+  const otps = []
+  if (formState.value.teamLeft) {
+    otps.push({
+      label: formState.value.teamLeft,
+      value: formState.value.teamLeft
+    })
+  }
+  if (formState.value.teamRight) {
+    otps.push({
+      label: formState.value.teamRight,
+      value: formState.value.teamRight
+    })
+  }
+  return otps
+})
 const filterOption = (input: string, option: { label: string; value: string }) => {
   return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
 }
@@ -74,6 +94,7 @@ const filterOption = (input: string, option: { label: string; value: string }) =
                 placeholder="select Team-A"
               >
                 <a-select-option
+                  v-show="team === formState.teamRight"
                   v-for="team in teamStore.teams"
                   :key="team"
                   :value="team"
@@ -107,8 +128,8 @@ const filterOption = (input: string, option: { label: string; value: string }) =
           <a-col span="24">
             <a-form-item label="Schedule" name="schedule" has-feedback>
               <a-date-picker
-                style="width: 200px"
-                format="DD/MM/YYYY"
+                style="width: 300px"
+                showTime
                 v-model:value="formState.schedule"
                 placeholder="select schedule"
               /> </a-form-item
@@ -118,11 +139,22 @@ const filterOption = (input: string, option: { label: string; value: string }) =
           <a-col span="24">
             <a-form-item label="Reliability" name="reliability" has-feedback>
               <a-input-number
-                style="width: 200px"
+                style="width: 300px"
                 :min="0"
                 :max="100"
                 :precision="2"
                 v-model:value="formState.reliability"
+              />
+            </a-form-item>
+          </a-col>
+          <!-- oddDetail -->
+          <a-col span="24">
+            <a-form-item label="oddDetail" name="oddDetail" has-feedback>
+              <a-auto-complete
+                v-model:value="formState.oddDetail"
+                :options="oddDetailOptions"
+                style="width: 300px"
+                placeholder="input here"
               />
             </a-form-item>
           </a-col>
@@ -136,7 +168,7 @@ const filterOption = (input: string, option: { label: string; value: string }) =
           <!-- introduction -->
           <a-col span="24">
             <a-form-item label="Introduction" name="introduction" has-feedback>
-              <a-textarea v-model:value="formState.introduction" />
+              <a-textarea v-model:value="formState.oddDetail" />
             </a-form-item>
           </a-col>
 
@@ -146,6 +178,23 @@ const filterOption = (input: string, option: { label: string; value: string }) =
               <a-textarea v-model:value="formState.roshiPrediction" />
             </a-form-item>
           </a-col>
+
+          <!-- archive -->
+          <a-col span="24">
+            <a-form-item label="archive" name="archive" has-feedback>
+              <a-checkbox v-model:checked="formState.archive">archive</a-checkbox>
+            </a-form-item>
+          </a-col>
+
+          <!-- onPoint -->
+          <a-col span="24">
+            <a-form-item label="onPoint" name="onPoint" has-feedback>
+              <a-checkbox :disabled="formState.archive" v-model:checked="formState.onPoint"
+                >onPoint</a-checkbox
+              >
+            </a-form-item>
+          </a-col>
+
           <a-form-item>
             <a-button type="primary" html-type="submit"> New Prediction</a-button>
           </a-form-item>
@@ -154,6 +203,8 @@ const filterOption = (input: string, option: { label: string; value: string }) =
     </a-card>
 
     <!-- winner(update) -->
+    <!-- archive(true) -->
+    <!-- onPoint(false) -->
   </div>
 </template>
 

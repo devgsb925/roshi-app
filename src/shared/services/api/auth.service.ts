@@ -13,7 +13,8 @@ class AuthService {
     }
     try {
       const authRes = await api.post(API_URIs.SignIn, body)
-      res.data = authRes.data.data
+      res.data.accessToken = authRes.data.data.accessToken
+      storage.set(StoreKeys.User, res.data.accessToken)
     } catch (error) {
       res.message = axiosErrorMsg(error)
       res.error = true
