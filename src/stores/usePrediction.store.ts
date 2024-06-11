@@ -10,7 +10,7 @@ export const usePredictionStore = defineStore('counter', () => {
 
   const onFetchPredictions = async () => {
     loading.value = true
-    await sleep(3000)
+    await sleep(50)
     predictions.value = await predictionService.getMany()
     loading.value = false
   }

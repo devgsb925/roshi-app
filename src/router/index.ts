@@ -13,6 +13,16 @@ const router = createRouter({
           component: () => import('@/components/pages/PredictionPage.vue')
         }
       ]
+    },
+    {
+      path: '/login',
+      name: 'login.page',
+      component: () => import('@/components/pages/LoginPage.vue')
+    },
+    {
+      path: '/manage-prediction',
+      name: 'login.page',
+      component: () => import('@/components/pages/PredictionPage.vue')
     }
   ]
 })
