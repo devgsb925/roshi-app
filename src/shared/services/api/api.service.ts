@@ -22,7 +22,9 @@ export interface IServiceResultData<T> extends IServiceResult {
   data: T
 }
 export const API_URIs = {
-  SignIn: '/auth/sign-in'
+  SignIn: '/auth/sign-in',
+  team: 'teams',
+  prediction: 'predictions'
 }
 
 api.interceptors.request.use(

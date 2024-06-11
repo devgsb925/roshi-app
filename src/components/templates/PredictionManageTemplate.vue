@@ -1,7 +1,9 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import PredictionFormBase from '@/components/organisms/PredictionFormBase.vue'
+</script>
 
 <template>
-  <div></div>
+  <PredictionFormBase />
 </template>
 
 <style scoped></style>

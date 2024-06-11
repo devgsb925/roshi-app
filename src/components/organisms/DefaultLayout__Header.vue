@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import DateList from '@/components/molecules/DateList.vue'
+import LogoApp from '@/components/molecules/LogoApp.vue'
 </script>
 
 <template>
   <header class="header-app">
-    <div class="roshi-logo"><img src="@/assets/logo.png" alt="roshi-app" /></div>
+    <LogoApp class="roshi-logo" />
     <DateList :lists="[1, 2, 3, 4]" />
   </header>
 </template>
@@ -18,9 +19,6 @@ import DateList from '@/components/molecules/DateList.vue'
 
 .header-app .roshi-logo {
   display: flex;
-  width: 99px;
-  height: 50px;
-  margin-bottom: 16px;
   justify-content: center;
   width: 100%;
 }

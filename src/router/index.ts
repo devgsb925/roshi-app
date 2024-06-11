@@ -20,9 +20,20 @@ const router = createRouter({
       component: () => import('@/components/pages/LoginPage.vue')
     },
     {
-      path: '/manage-prediction',
-      name: 'login.page',
-      component: () => import('@/components/pages/PredictionPage.vue')
+      path: '/manager',
+      component: () => import('@/components/pages/layouts/ManagerLayout.vue'),
+      children: [
+        {
+          path: 'prediction',
+          name: 'prediction.page',
+          component: () => import('@/components/pages/PredictionManagePage.vue')
+        },
+        {
+          path: 'prediction/create',
+          name: 'prediction.create',
+          component: () => import('@/components/pages/PredictionPage.vue')
+        }
+      ]
     }
   ]
 })

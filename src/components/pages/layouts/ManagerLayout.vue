@@ -1,20 +1,18 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-const selectedKeys = ref<string[]>(['1'])
+import { RouterView, useRouter } from 'vue-router'
+const router = useRouter()
+
+const logout = () => router.push('/')
 </script>
 
 <template>
   <a-layout class="layout">
     <a-layout-header>
-      <div class="logo" />
-      <a-menu
-        v-model:selectedKeys="selectedKeys"
-        theme="dark"
-        mode="horizontal"
-        :style="{ lineHeight: '64px' }"
-      >
-        <a-menu-item key="1">Prediction</a-menu-item>
-      </a-menu>
+      <div class="header">
+        <div class="logo"><img src="@/assets/logo.png" /></div>
+        <a-button @click="logout">Logout</a-button>
+      </div>
     </a-layout-header>
     <a-layout-content style="padding: 0 50px">
       <a-breadcrumb style="margin: 16px 0">
@@ -29,21 +27,24 @@ const selectedKeys = ref<string[]>(['1'])
 </template>
 
 <style scoped>
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  color: white;
+}
+.header .logo {
+  display: flex;
+  width: 90px;
+  height: 40px;
+  color: white;
+}
 .site-layout-content {
-  min-height: 280px;
+  min-height: 100dvh;
   padding: 24px;
   background: #fff;
-}
-#components-layout-demo-top .logo {
-  float: left;
-  width: 120px;
-  height: 31px;
-  margin: 16px 24px 16px 0;
-  background: rgba(255, 255, 255, 0.3);
-}
-.ant-row-rtl #components-layout-demo-top .logo {
-  float: right;
-  margin: 16px 0 16px 24px;
 }
 
 [data-theme='dark'] .site-layout-content {
