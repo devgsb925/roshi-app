@@ -5,9 +5,9 @@ import { reactive, computed, ref } from 'vue'
 const teamStore = useTeamStore()
 const formState = ref<PredictionModelForm>({
   poster: 'bannerURL',
-  oddDetail: 'teamA +1',
-  introduction: 'lorem1',
-  roshiPrediction: 'lorem 2',
+  oddDetail: '',
+  introduction: '',
+  roshiPrediction: '',
   teamLeft: null,
   links: ['', '', ''],
   teamRight: null,
@@ -168,7 +168,7 @@ const filterOption = (input: string, option: { label: string; value: string }) =
           <!-- introduction -->
           <a-col span="24">
             <a-form-item label="Introduction" name="introduction" has-feedback>
-              <a-textarea v-model:value="formState.oddDetail" />
+              <a-textarea v-model:value="formState.introduction" />
             </a-form-item>
           </a-col>
 

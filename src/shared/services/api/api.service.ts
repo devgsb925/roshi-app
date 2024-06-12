@@ -27,19 +27,24 @@ export const API_URIs = {
   prediction: 'predictions'
 }
 
-api.interceptors.request.use(
-  function (config) {
-    if (config.url !== API_URIs.SignIn) {
-      const token = authService.getToken()
-      console.log('🚀 ~ token:', token)
-      config.headers['Authorization'] = `Bearer ${token}`
-    }
+api.interceptors.request.use(function (config) {
+  if (config.url !== API_URIs.SignIn) {
+    const token = authService.getToken()
+    config.headers['Authorization'] = `Bearer ${token}`
+  }
 
-    return config
+  return config
+})
+api.interceptors.response.use(
+  (response) => {
+    return response
   },
   async function (error) {
     const originalRequest = error.config
-    if (error.response.status === 401 && originalRequest.url !== API_URIs.SignIn) {
+    if (
+      error.response.status === HttpStatusCode.Unauthorized &&
+      originalRequest.url !== API_URIs.SignIn
+    ) {
       router.push({ name: 'login.page' })
       authService.clearToken()
       return Promise.reject(error)

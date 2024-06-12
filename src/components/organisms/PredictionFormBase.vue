@@ -3,11 +3,17 @@ import PredictionForm from '@/components/molecules/PredictionForm.vue'
 import type { PredictionModelForm } from '@/model/prediction.type'
 import { predictionService } from '@/shared/services/api/prediction.service'
 import { notification } from 'ant-design-vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const onFinish = async (form: PredictionModelForm) => {
   const result = await predictionService.save(form)
   if (result.error) return notification.error({ message: result.message })
 
+  router.push({
+    name: 'prediction.page'
+  })
   notification.success({ message: result.data })
 }
 </script>

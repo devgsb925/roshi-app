@@ -39,12 +39,17 @@ const router = createRouter({
         {
           path: 'prediction',
           name: 'prediction.page',
-          component: () => import('@/components/pages/PredictionManagePage.vue')
+          component: () => import('@/components/pages/PredictionListPage.vue')
         },
         {
           path: 'prediction/create',
           name: 'prediction.create',
-          component: () => import('@/components/pages/PredictionPage.vue')
+          component: () => import('@/components/pages/PredictionManagePage.vue')
+        },
+        {
+          path: 'prediction/update/:id',
+          name: 'prediction.update',
+          component: () => import('@/components/pages/PredictionManagePage.vue')
         }
       ]
     }
