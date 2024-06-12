@@ -1,4 +1,4 @@
-import type { PredictionsResponse } from '@/model/prediction.type'
+import type { PredictionModel, PredictionsResponse } from '@/model/prediction.type'
 import { api, API_URIs, axiosErrorMsg, type IServiceResultData } from './api.service'
 
 class PredictionService {
@@ -34,6 +34,22 @@ class PredictionService {
     }
     return res
   }
+  async del(id: string) {
+    const res: IServiceResultData<string> = {
+      data: '',
+      message: '',
+      error: false
+    }
+
+    try {
+      const response = await api.delete(`${API_URIs.prediction}/${id}`)
+      res.data = response.data.data
+    } catch (error) {
+      res.message = axiosErrorMsg(error)
+      res.error = true
+    }
+    return res
+  }
 
   async getAll(filter: Record<string, any>) {
     const res: IServiceResultData<PredictionsResponse> = {
@@ -54,6 +70,37 @@ class PredictionService {
       const response = await api.get(`${API_URIs.prediction}`, {
         params: filter
       })
+      res.data = response.data.data
+    } catch (error) {
+      res.message = axiosErrorMsg(error)
+      res.error = true
+    }
+    return res
+  }
+
+  async getOne(id: string) {
+    const res: IServiceResultData<PredictionModel> = {
+      data: {
+        id: '',
+        poster: '',
+        oddDetail: '',
+        introduction: '',
+        roshiPrediction: '',
+        teamLeft: null,
+        teamRight: null,
+        links: [],
+        reliability: 0,
+        schedule: null,
+        winner: '',
+        onPoint: false,
+        archive: false
+      },
+      message: '',
+      error: false
+    }
+
+    try {
+      const response = await api.get(`${API_URIs.prediction}/${id}`)
       res.data = response.data.data
     } catch (error) {
       res.message = axiosErrorMsg(error)

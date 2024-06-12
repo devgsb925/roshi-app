@@ -1,10 +1,16 @@
 <script lang="ts" setup>
-import type { PredictionModelForm } from '@/model/prediction.type'
+import type { PredictionModel, PredictionModelForm } from '@/model/prediction.type'
 import { useTeamStore } from '@/stores/useTeam.store'
 import { reactive, computed, ref } from 'vue'
+import { filterAntOption } from '@/shared/utils/filterOption'
+import { stringToDatePicker } from '@/shared/utils/datePicker'
 const teamStore = useTeamStore()
+
+defineProps<{
+  id?: string
+}>()
 const formState = ref<PredictionModelForm>({
-  poster: 'bannerURL',
+  poster: '',
   oddDetail: '',
   introduction: '',
   roshiPrediction: '',
@@ -44,7 +50,7 @@ const onFinish = () => {
   emits('finish', formState.value)
 }
 
-const oddDetailOptions = computed(() => {
+const teamSelectedOptions = computed(() => {
   const otps = []
   if (formState.value.teamLeft) {
     otps.push({
@@ -60,9 +66,30 @@ const oddDetailOptions = computed(() => {
   }
   return otps
 })
-const filterOption = (input: string, option: { label: string; value: string }) => {
-  return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
+
+const onArchiveChange = () => {
+  if (!formState.value.archive) return (rules.winner[0].required = true)
+  rules.winner[0].required = false
 }
+const onReplaceForm = (prediction: PredictionModel) => {
+  formState.value.poster = prediction.poster
+  formState.value.oddDetail = prediction.oddDetail
+  formState.value.introduction = prediction.introduction
+  formState.value.roshiPrediction = prediction.roshiPrediction
+  formState.value.teamLeft = prediction.teamLeft
+  formState.value.links = prediction.links
+  formState.value.teamRight = prediction.teamRight
+  formState.value.reliability = Number(prediction.reliability)
+  formState.value.schedule = prediction.schedule ? stringToDatePicker(prediction.schedule) : null
+  formState.value.winner = prediction.winner
+  formState.value.onPoint = prediction.onPoint
+  formState.value.archive = prediction.archive
+  onArchiveChange()
+}
+
+defineExpose({
+  onReplaceForm
+})
 </script>
 
 <template>
@@ -87,7 +114,7 @@ const filterOption = (input: string, option: { label: string; value: string }) =
           <a-col span="12">
             <a-form-item label="Team-A" name="teamLeft" has-feedback>
               <a-select
-                :filter-option="filterOption"
+                :filter-option="filterAntOption"
                 show-search
                 allowClear
                 v-model:value="formState.teamLeft"
@@ -108,7 +135,7 @@ const filterOption = (input: string, option: { label: string; value: string }) =
           <a-col span="12">
             <a-form-item label="Team-B" name="teamRight" has-feedback>
               <a-select
-                :filter-option="filterOption"
+                :filter-option="filterAntOption"
                 show-search
                 allowClear
                 v-model:value="formState.teamRight"
@@ -152,12 +179,13 @@ const filterOption = (input: string, option: { label: string; value: string }) =
             <a-form-item label="oddDetail" name="oddDetail" has-feedback>
               <a-auto-complete
                 v-model:value="formState.oddDetail"
-                :options="oddDetailOptions"
+                :options="teamSelectedOptions"
                 style="width: 300px"
                 placeholder="input here"
               />
             </a-form-item>
           </a-col>
+
           <!-- links -->
           <a-col v-for="(_, index) in formState.links" :key="`link-${index}`" span="8">
             <a-form-item :label="`Link-${index + 1}`" :name="['links', index]">
@@ -182,7 +210,9 @@ const filterOption = (input: string, option: { label: string; value: string }) =
           <!-- archive -->
           <a-col span="24">
             <a-form-item label="archive" name="archive" has-feedback>
-              <a-checkbox v-model:checked="formState.archive">archive</a-checkbox>
+              <a-checkbox @change="onArchiveChange" v-model:checked="formState.archive"
+                >archive</a-checkbox
+              >
             </a-form-item>
           </a-col>
 
@@ -194,17 +224,25 @@ const filterOption = (input: string, option: { label: string; value: string }) =
               >
             </a-form-item>
           </a-col>
+          <a-col span="24">
+            <a-form-item label="winner" name="winner" has-feedback>
+              <a-auto-complete
+                v-model:value="formState.winner"
+                :options="teamSelectedOptions"
+                style="width: 300px"
+                placeholder="input here the winner"
+              />
+            </a-form-item>
+          </a-col>
 
           <a-form-item>
-            <a-button type="primary" html-type="submit"> New Prediction</a-button>
+            <a-button type="primary" html-type="submit">
+              {{ id ? 'Update' : 'New' }} Prediction</a-button
+            >
           </a-form-item>
         </a-row>
       </a-form>
     </a-card>
-
-    <!-- winner(update) -->
-    <!-- archive(true) -->
-    <!-- onPoint(false) -->
   </div>
 </template>
 

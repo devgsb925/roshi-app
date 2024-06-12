@@ -1,4 +1,4 @@
-import type { AxiosWithPagination } from './pagination.type'
+import type { AxiosWithPagination, PaginationTableType } from './pagination.type'
 
 export type PredictionTeamMatchProp = {
   title: string
@@ -20,6 +20,14 @@ export type PredictionModel = {
   onPoint: boolean
   archive: boolean
 }
+
+export type PredictionFilterType = {
+  schedule?: string
+  team?: string
+  winner?: string
+  archive?: boolean
+  onPoint?: boolean
+} & Partial<PaginationTableType>
 
 export type PredictionModelForm = Omit<PredictionModel, 'id'>
 

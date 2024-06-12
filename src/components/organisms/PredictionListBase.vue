@@ -1,22 +1,20 @@
 <script lang="ts" setup>
-import { notification } from 'ant-design-vue'
-import { reactive, onMounted } from 'vue'
-import { PlusOutlined } from '@ant-design/icons-vue'
+import { Modal, notification } from 'ant-design-vue'
+import { reactive, onMounted, createVNode } from 'vue'
+import { PlusOutlined, ExclamationCircleOutlined } from '@ant-design/icons-vue'
+import { useRouter } from 'vue-router'
 //
 import PredictionTable from '@/components/molecules/prediction/PredictionTable.vue'
 import { predictionService } from '@/shared/services/api/prediction.service'
-import { type PredictionModel } from '@/model/prediction.type'
-import { useRouter } from 'vue-router'
+import type { PredictionModel, PredictionFilterType } from '@/model/prediction.type'
 import { type PaginationTableType } from '@/model/pagination.type'
+import PredictionFilter from '../molecules/prediction/PredictionFilter.vue'
 
 type StateType = {
   predictions: PredictionModel[]
   loading: boolean
   total: number
-  filters: {
-    page: number
-    pageSize: number
-  }
+  filters: PredictionFilterType
 }
 
 const state = reactive<StateType>({
@@ -28,20 +26,33 @@ const state = reactive<StateType>({
     pageSize: 10
   }
 })
-const onFetchPredictions = async () => {
+// #Section management
+const onFetchPredictions = async (value?: PredictionFilterType) => {
   //
-  const { data, error, message } = await predictionService.getAll(state.filters)
+  const { data, error, message } = await predictionService.getAll({ ...state.filters, ...value })
   if (error) return notification.error({ message })
 
   state.predictions = data.data
   state.total = data.pagination.total
 }
 
-const onPaginateChanged = async (paginate: PaginationTableType) => {
-  state.filters.page = paginate.page
-  state.filters.pageSize = paginate.pageSize
-  await onFetchPredictions()
+const onDelete = (id: string) => {
+  Modal.confirm({
+    title: 'Do you want to delete these prediction?',
+    icon: createVNode(ExclamationCircleOutlined),
+    content: 'When clicked the OK button, this dialog will be closed',
+    async onOk() {
+      const result = await predictionService.del(id)
+      if (result.error) return notification.error({ message: result.message })
+
+      await onFetchPredictions()
+      notification.success({ message: result.data })
+      return true
+    }
+  })
 }
+
+// end Manage
 
 const router = useRouter()
 const navigateToCreate = () =>
@@ -57,6 +68,12 @@ const navigateToUpdate = (id: string) =>
     name: 'prediction.update'
   })
 
+const onPaginateChanged = async (paginate: PaginationTableType) => {
+  state.filters.page = paginate.page
+  state.filters.pageSize = paginate.pageSize
+  await onFetchPredictions()
+}
+
 onMounted(async () => {
   await onFetchPredictions()
 })
@@ -70,10 +87,12 @@ onMounted(async () => {
         New Prediction</a-button
       >
     </div>
+    <PredictionFilter @change="onFetchPredictions" style="margin-bottom: 12px" />
     <div style="width: 100%; overflow-x: auto">
       <PredictionTable
         @paginate-change="onPaginateChanged"
         @edit="navigateToUpdate"
+        @delete="onDelete"
         :total="state.total"
         :data="state.predictions"
       />
