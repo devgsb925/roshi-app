@@ -2,7 +2,7 @@ import axios, { HttpStatusCode } from 'axios'
 import { authService } from './auth.service'
 import router from '@/router'
 
-const baseAPI = 'http://127.0.0.1:3000'
+const baseAPI = import.meta.env.VITE_API_URL
 const headerDefault = {
   'Content-Type': 'application/json',
   'Accept-Language': 'lo'
@@ -24,7 +24,8 @@ export interface IServiceResultData<T> extends IServiceResult {
 export const API_URIs = {
   SignIn: '/auth/sign-in',
   team: 'teams',
-  prediction: 'predictions'
+  prediction: 'predictions',
+  uploadFile: 'upload-file'
 }
 
 api.interceptors.request.use(function (config) {

@@ -7,7 +7,7 @@ import {
 import { authService } from '@/shared/services/api/auth.service'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(),
   routes: [
     {
       path: '/',

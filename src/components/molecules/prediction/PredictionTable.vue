@@ -111,6 +111,9 @@ const dataSource = computed(() =>
         </div>
       </template>
 
+      <template v-if="column.key === 'poster'">
+        <a-avatar :size="50" :src="record.poster" :alt="record.poster" />
+      </template>
       <template v-if="column.key === 'onPoint'">
         <PredictionTagStatus :status="record.onPoint" />
       </template>

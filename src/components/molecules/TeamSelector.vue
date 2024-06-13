@@ -6,6 +6,7 @@ import { useTeamStore } from '@/stores/useTeam.store'
 const props = defineProps<{
   value: any
   placeholder?: string
+  excludeTeam?: string | null
 }>()
 
 const emits = defineEmits(['update:value'])
@@ -27,12 +28,9 @@ const teamStore = useTeamStore()
     v-model:value="val"
     :placeholder="placeholder"
   >
-    <a-select-option
-      v-for="team in teamStore.teams"
-      :key="team"
-      :value="team"
-      :label="team"
-    ></a-select-option>
+    <template v-for="team in teamStore.teams" :key="team">
+      <a-select-option v-if="team !== excludeTeam" :value="team" :label="team"></a-select-option>
+    </template>
   </a-select>
 </template>
 

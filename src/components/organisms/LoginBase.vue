@@ -12,7 +12,7 @@ const onFinish = async (values: any) => {
   loading.value = true
   const result = await authService.login(values)
   if (result.error)
-    notification.error({
+    return notification.error({
       message: result.message
     })
   router.push({

@@ -1,15 +1,17 @@
 <script lang="ts" setup>
 import type { PredictionModel, PredictionModelForm } from '@/model/prediction.type'
-import { useTeamStore } from '@/stores/useTeam.store'
 import { reactive, computed, ref } from 'vue'
-import { filterAntOption } from '@/shared/utils/filterOption'
 import { stringToDatePicker } from '@/shared/utils/datePicker'
-const teamStore = useTeamStore()
+import AtomUpload from '@/components/atoms/AtomUpload.vue'
+import TeamSelector from '@/components/molecules/TeamSelector.vue'
+//
+type TriggerType = 'change' | 'blur'
 
-defineProps<{
+const props = defineProps<{
   id?: string
 }>()
-const formState = ref<PredictionModelForm>({
+
+const initForm = {
   poster: '',
   oddDetail: '',
   introduction: '',
@@ -22,17 +24,19 @@ const formState = ref<PredictionModelForm>({
   winner: '',
   onPoint: false,
   archive: true
-})
+}
+//
+const formState = ref<PredictionModelForm>({ ...initForm })
 
 const emits = defineEmits(['finish'])
 
 const message = '${label} is required'
-const getDefaultRule = (required = true, trigger = ['change', 'blur']) => [
+const getDefaultRule = (required = true, trigger: TriggerType[] = ['change', 'blur']) => [
   { required, message, trigger }
 ]
 
 const rules = reactive({
-  poster: getDefaultRule(),
+  poster: getDefaultRule(true, ['blur']),
   oddDetail: getDefaultRule(),
   introduction: getDefaultRule(),
   roshiPrediction: getDefaultRule(),
@@ -46,9 +50,6 @@ const rules = reactive({
   onPoint: getDefaultRule(false),
   archive: getDefaultRule(false)
 })
-const onFinish = () => {
-  emits('finish', formState.value)
-}
 
 const teamSelectedOptions = computed(() => {
   const otps = []
@@ -67,7 +68,9 @@ const teamSelectedOptions = computed(() => {
   return otps
 })
 
+const uploadPosterRef = ref<InstanceType<typeof AtomUpload>>()
 const onArchiveChange = () => {
+  if (!props.id) return
   if (!formState.value.archive) return (rules.winner[0].required = true)
   rules.winner[0].required = false
 }
@@ -85,6 +88,10 @@ const onReplaceForm = (prediction: PredictionModel) => {
   formState.value.onPoint = prediction.onPoint
   formState.value.archive = prediction.archive
   onArchiveChange()
+}
+const onFinish = async () => {
+  await uploadPosterRef.value?.handleUpload()
+  emits('finish', formState.value)
 }
 
 defineExpose({
@@ -107,47 +114,29 @@ defineExpose({
           <!-- poster -->
           <a-col span="24">
             <a-form-item label="Poster" name="poster" has-feedback>
-              <a-input readonly v-model:value="formState.poster" placeholder="input username" />
+              <!-- <a-input readonly v-model:value="" placeholder="input username" /> -->
+              <AtomUpload ref="uploadPosterRef" v-model:fileName="formState.poster" />
             </a-form-item>
           </a-col>
           <!-- teamLeft -->
           <a-col span="12">
             <a-form-item label="Team-A" name="teamLeft" has-feedback>
-              <a-select
-                :filter-option="filterAntOption"
-                show-search
-                allowClear
+              <TeamSelector
                 v-model:value="formState.teamLeft"
-                placeholder="select Team-A"
-              >
-                <a-select-option
-                  v-show="team === formState.teamRight"
-                  v-for="team in teamStore.teams"
-                  :key="team"
-                  :value="team"
-                  :label="team"
-                ></a-select-option>
-              </a-select>
+                :excludeTeam="formState.teamRight"
+                placeholder="select Team on the left side"
+              />
             </a-form-item>
           </a-col>
 
           <!-- teamRight -->
           <a-col span="12">
             <a-form-item label="Team-B" name="teamRight" has-feedback>
-              <a-select
-                :filter-option="filterAntOption"
-                show-search
-                allowClear
+              <TeamSelector
                 v-model:value="formState.teamRight"
-                placeholder="select Team-B"
-              >
-                <a-select-option
-                  v-for="team in teamStore.teams"
-                  :key="team"
-                  :value="team"
-                  :label="team"
-                ></a-select-option>
-              </a-select>
+                :excludeTeam="formState.teamLeft"
+                placeholder="select Team on the right side"
+              />
             </a-form-item>
           </a-col>
 
@@ -224,7 +213,7 @@ defineExpose({
               >
             </a-form-item>
           </a-col>
-          <a-col span="24">
+          <a-col span="24" v-if="id">
             <a-form-item label="winner" name="winner" has-feedback>
               <a-auto-complete
                 v-model:value="formState.winner"
