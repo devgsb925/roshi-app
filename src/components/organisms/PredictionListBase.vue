@@ -23,7 +23,7 @@ const state = reactive<StateType>({
   total: 0,
   filters: {
     page: 1,
-    pageSize: 10
+    perPage: 10
   }
 })
 // #Section management
@@ -70,7 +70,7 @@ const navigateToUpdate = (id: string) =>
 
 const onPaginateChanged = async (paginate: PaginationTableType) => {
   state.filters.page = paginate.page
-  state.filters.pageSize = paginate.pageSize
+  state.filters.perPage = paginate.perPage
   await onFetchPredictions()
 }
 

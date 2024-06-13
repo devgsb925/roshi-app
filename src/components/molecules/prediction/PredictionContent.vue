@@ -3,6 +3,9 @@ import AtomBreadcrumb from '@/components/atoms/AtomBreadcrumb.vue'
 
 defineProps<{
   links: string[]
+  reliability: number
+  introduction: string
+  oddDetail: string
 }>()
 </script>
 
@@ -11,18 +14,17 @@ defineProps<{
     <!-- Score -->
     <h4 class="prediction-content-score text-center">Score match will :</h4>
     <!-- TeamName -->
-    <h1 class="prediction-content-team_name text-center text-gradient">Timberwolves +6</h1>
+    <h1 class="prediction-content-team_name text-center text-gradient">{{ oddDetail }}</h1>
     <!-- Possibly -->
-    <h4 class="prediction-content-possibly text-center">Reliability (95,6%)</h4>
+    <h4 class="prediction-content-possibly text-center">
+      Reliability ({{ `${reliability}`.replace('.', ',') }}%)
+    </h4>
     <!-- Link Views -->
     <h4 class="prediction-content-link_text text-center">Can be viewed at :</h4>
     <AtomBreadcrumb class="prediction-content-link_list" :links="links" />
     <!-- Description -->
     <h3 class="prediction-content-description">
-      The Dallas Mavericks are an American professional basketball team based in Dallas. The
-      Mavericks compete in the National Basketball Association as a member of the Southwest Division
-      of the Western Conference. The team plays its home games at the American Airlines Center,
-      which it shares with the NHL's Dallas Stars
+      {{ introduction }}
     </h3>
   </div>
 </template>

@@ -14,12 +14,12 @@ const emits = defineEmits(['edit', 'delete', 'paginateChange'])
 
 const pagination = reactive<PaginationTableType>({
   page: 1,
-  pageSize: 10
+  perPage: 10
 })
 
-const onPaginateChange = (page: number, pageSize: number) => {
+const onPaginateChange = (page: number, perPage: number) => {
   pagination.page = page
-  pagination.pageSize = pageSize
+  pagination.perPage = perPage
   emits('paginateChange', pagination)
 }
 
@@ -96,7 +96,7 @@ const dataSource = computed(() =>
     :pagination="{
       page: pagination.page,
       total: total,
-      pageSize: pagination.pageSize,
+      perPage: pagination.perPage,
       onChange: onPaginateChange,
       showSizeChange: onPaginateChange
     }"

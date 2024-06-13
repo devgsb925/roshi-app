@@ -18,11 +18,11 @@ export const usePredictionStore = defineStore('counter', () => {
   const filters = ref<Filter>({
     schedule: {
       page: 1,
-      pageSize: 4
+      perPage: 4
     },
     prediction: {
       page: 1,
-      pageSize: 10,
+      perPage: 10,
       schedule: null
     }
   })
@@ -75,9 +75,14 @@ export const usePredictionStore = defineStore('counter', () => {
   }
 
   const onNextSchedule = async () => {
-    //
+    if (pagination.value.schedule.page > pagination.value.schedule.totalPages) return
+    pagination.value.schedule.page++
+    await onFetchSchedules()
   }
   const onPrevSchedule = async () => {
+    if (pagination.value.schedule.page <= 1) return
+    pagination.value.schedule.page--
+    await onFetchSchedules()
     //
   }
 
@@ -92,6 +97,7 @@ export const usePredictionStore = defineStore('counter', () => {
     predictions,
     loading,
     schedules,
+    pagination,
     onFetchPredictions,
     filterPredictionScheduleChange
   }

@@ -1,6 +1,6 @@
 export type PaginationTableType = {
   page: number
-  pageSize: number
+  perPage: number
 }
 
 export type PaginationResponse = {

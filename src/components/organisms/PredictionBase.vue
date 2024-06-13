@@ -47,7 +47,12 @@ const teamMatching = computed(() => {
       :date="schedule.date"
     />
     <PredictionTeamMatch :team-a="teamMatching.teamA" :team-b="teamMatching.teamB" />
-    <PredictionContent :links="prediction.links" />
+    <PredictionContent
+      :oddDetail="prediction.oddDetail"
+      :introduction="prediction.introduction"
+      :reliability="prediction.reliability"
+      :links="prediction.links"
+    />
     <PredictionBreak />
   </section>
 </template>

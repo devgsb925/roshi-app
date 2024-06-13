@@ -4,11 +4,9 @@ import AtomIcon from '@/components/atoms/AtomIcon.vue'
 import { Icons } from '@/shared/enums/icon.enum'
 import type { SchedulePrediction } from '@/model/prediction.type'
 
-const props = defineProps<{
+defineProps<{
   lists: SchedulePrediction[]
   schedule: string
-  total: number
-  page: number
 }>()
 // const canPrev = computed(() => props.page - 1)
 const emits = defineEmits(['prev', 'next', 'change'])
