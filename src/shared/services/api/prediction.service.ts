@@ -1,8 +1,12 @@
-import type { PredictionModel, PredictionsResponse } from '@/model/prediction.type'
+import type {
+  PredictionModel,
+  PredictionModelForm,
+  PredictionsResponse
+} from '@/model/prediction.type'
 import { api, API_URIs, axiosErrorMsg, type IServiceResultData } from './api.service'
 
 class PredictionService {
-  async save(body: any) {
+  async save(body: PredictionModelForm) {
     const res: IServiceResultData<string> = {
       data: '',
       message: '',
@@ -18,7 +22,7 @@ class PredictionService {
     }
     return res
   }
-  async update(id: string, body: any) {
+  async update(id: string, body: PredictionModelForm) {
     const res: IServiceResultData<string> = {
       data: '',
       message: '',
@@ -77,7 +81,6 @@ class PredictionService {
     }
     return res
   }
-
   async getOne(id: string) {
     const res: IServiceResultData<PredictionModel> = {
       data: {

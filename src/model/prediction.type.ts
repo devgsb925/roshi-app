@@ -5,6 +5,11 @@ export type PredictionTeamMatchProp = {
   imageUrl: string
 }
 
+export type SchedulePrediction = {
+  label: string
+  value: Date
+}
+
 export type PredictionModel = {
   id: string
   poster: string
@@ -32,3 +37,4 @@ export type PredictionFilterType = {
 export type PredictionModelForm = Omit<PredictionModel, 'id'>
 
 export type PredictionsResponse = AxiosWithPagination<PredictionModel[]>
+export type ScheduleResponse = AxiosWithPagination<SchedulePrediction[]>

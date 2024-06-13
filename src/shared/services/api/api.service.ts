@@ -25,7 +25,9 @@ export const API_URIs = {
   SignIn: '/auth/sign-in',
   team: 'teams',
   prediction: 'predictions',
-  uploadFile: 'upload-file'
+  uploadFile: 'upload-file',
+  schedule: 'schedule',
+  public: 'public'
 }
 
 api.interceptors.request.use(function (config) {

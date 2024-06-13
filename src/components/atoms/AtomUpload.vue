@@ -125,6 +125,7 @@ watch(
     if (!count.value && newVal.length > prev.length) addFileListFromChange()
   }
 )
+
 const emits = defineEmits(['update:fileName'])
 //Section upload
 const handleUpload = async () => {
