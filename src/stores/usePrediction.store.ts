@@ -75,15 +75,17 @@ export const usePredictionStore = defineStore('counter', () => {
   }
 
   const onNextSchedule = async () => {
-    if (pagination.value.schedule.page > pagination.value.schedule.totalPages) return
-    pagination.value.schedule.page++
-    await onFetchSchedules()
+    const hasNext = pagination.value.schedule.page < pagination.value.schedule.totalPages
+    if (hasNext) {
+      pagination.value.schedule.page++
+      await onFetchSchedules()
+    }
   }
   const onPrevSchedule = async () => {
-    if (pagination.value.schedule.page <= 1) return
-    pagination.value.schedule.page--
-    await onFetchSchedules()
-    //
+    if (pagination.value.schedule.page > 1) {
+      pagination.value.schedule.page--
+      await onFetchSchedules()
+    }
   }
 
   const filterPredictionScheduleChange = async (value: Date) => {
