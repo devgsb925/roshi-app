@@ -1,6 +1,5 @@
 <template>
   <div class="clearfix">
-    <pre>{{ console.log(fileList) }}</pre>
     <a-upload
       v-model:file-list="fileList"
       list-type="picture-card"
@@ -86,7 +85,6 @@ const previewVisible = ref(false)
 const previewImage = ref('')
 
 const handlePreview = async (file: any) => {
-  console.log(file.url)
   if (!file.url && !file.preview) {
     file.preview = (await getBase64(file.originFileObj)) as string
   }
