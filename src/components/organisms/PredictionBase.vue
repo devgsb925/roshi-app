@@ -3,18 +3,17 @@ import PredictionHeader from '@/components/molecules/prediction/PredictionHeader
 import PredictionTeamMatch from '@/components/molecules/prediction/PredictionTeamMatch.vue'
 import PredictionContent from '@/components/molecules/prediction/PredictionContent.vue'
 import PredictionBreak from '@/components/molecules/prediction/PredictionBreak.vue'
-//TODO delete  mock just for mocking
-import TeamLogoImage from '@/assets/mock/TeamLogo.png'
 import type { PredictionTeamMatchProp } from '@/model/prediction.type'
-import type { Prediction } from '@/shared/services/prediction/predicton.type'
 import { computed } from 'vue'
+import type { PredictionModelNotNull } from '@/model/prediction.type'
 
 const props = defineProps<{
-  prediction: Prediction
+  prediction: PredictionModelNotNull
 }>()
 
 const schedule = computed(() => {
-  const [date, time] = props.prediction.schedule.split(' ')
+  const schedule = new Date(props.prediction.schedule).toLocaleDateString()
+  const [date, time] = schedule.split(' ')
 
   return {
     date: date ?? '',
@@ -23,39 +22,32 @@ const schedule = computed(() => {
 })
 
 const teamMatching = computed(() => {
-  const [titleA, titleB] = props.prediction.matchInfo.split(' VS ')
   const teamA: PredictionTeamMatchProp = {
-    title: titleA,
-    // TODO team LOGO
-    imageUrl: TeamLogoImage
+    title: props.prediction.teamLeft,
+    imageUrl: ''
   }
   const teamB: PredictionTeamMatchProp = {
-    title: titleB,
-    // TODO team LOGO
-    imageUrl: TeamLogoImage
+    title: props.prediction.teamRight,
+    imageUrl: ''
   }
   return {
     teamA,
-    teamB
+    teamB,
+    info: `${props.prediction.teamLeft} VS ${props.prediction.teamRight}`
   }
 })
-const links = computed(() => [
-  props.prediction.link1,
-  props.prediction.link2,
-  props.prediction.link3
-])
 </script>
 
 <template>
   <section v-if="prediction">
     <PredictionHeader
       :banner-url="prediction.poster"
-      :title="prediction.matchInfo"
+      :title="teamMatching.info"
       :time="schedule.time"
       :date="schedule.date"
     />
     <PredictionTeamMatch :team-a="teamMatching.teamA" :team-b="teamMatching.teamB" />
-    <PredictionContent :links />
+    <PredictionContent :links="prediction.links" />
     <PredictionBreak />
   </section>
 </template>

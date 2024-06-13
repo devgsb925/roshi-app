@@ -1,9 +1,9 @@
 import type { PaginationResponse, PaginationTableType } from '@/model/pagination.type'
-import type { PredictionModel, SchedulePrediction } from '@/model/prediction.type'
+import type { PredictionModelNotNull, SchedulePrediction } from '@/model/prediction.type'
 import { predictionPublicService } from '@/shared/services/api/prediction-public.service'
 import { notification } from 'ant-design-vue'
 import { defineStore } from 'pinia'
-import { reactive, ref } from 'vue'
+import { ref } from 'vue'
 
 type Filter = {
   schedule: PaginationTableType
@@ -13,7 +13,7 @@ type Filter = {
 }
 
 export const usePredictionStore = defineStore('counter', () => {
-  const predictions = ref<PredictionModel[]>([])
+  const predictions = ref<PredictionModelNotNull[]>([])
   const schedules = ref<SchedulePrediction[]>([])
   const filters = ref<Filter>({
     schedule: {
@@ -62,7 +62,6 @@ export const usePredictionStore = defineStore('counter', () => {
   }
 
   const onFetchSchedules = async () => {
-    loading.value = true
     const { data, error, message } = await predictionPublicService.getSchedules(
       filters.value.schedule
     )
@@ -73,7 +72,6 @@ export const usePredictionStore = defineStore('counter', () => {
     pagination.value.schedule.totalPages = data.pagination.totalPages
     pagination.value.schedule.total = data.pagination.total
     schedules.value = data.data
-    loading.value = false
   }
 
   const onNextSchedule = async () => {
@@ -83,12 +81,18 @@ export const usePredictionStore = defineStore('counter', () => {
     //
   }
 
+  const filterPredictionScheduleChange = async (value: Date) => {
+    filters.value.prediction.schedule = value
+    await onFetchPredictions()
+  }
   return {
     onFetchSchedules,
     onNextSchedule,
     onPrevSchedule,
     predictions,
     loading,
-    onFetchPredictions
+    schedules,
+    onFetchPredictions,
+    filterPredictionScheduleChange
   }
 })

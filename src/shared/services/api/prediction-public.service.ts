@@ -1,9 +1,9 @@
-import type { PredictionsResponse, ScheduleResponse } from '@/model/prediction.type'
+import type { PredictionsPublicResponse, ScheduleResponse } from '@/model/prediction.type'
 import { api, API_URIs, axiosErrorMsg, type IServiceResultData } from './api.service'
 
 class PredictionPublicService {
   async getAll(filter: Record<string, any>) {
-    const res: IServiceResultData<PredictionsResponse> = {
+    const res: IServiceResultData<PredictionsPublicResponse> = {
       data: {
         data: [],
         pagination: {

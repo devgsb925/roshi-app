@@ -26,6 +26,21 @@ export type PredictionModel = {
   archive: boolean
 }
 
+export type PredictionModelNotNull = {
+  id: string
+  poster: string
+  oddDetail: string
+  introduction: string
+  roshiPrediction: string
+  teamLeft: string
+  teamRight: string
+  links: string[]
+  reliability: number
+  schedule: Date
+  winner: string
+  onPoint: boolean
+  archive: boolean
+}
 export type PredictionFilterType = {
   schedule?: string
   team?: string
@@ -37,4 +52,5 @@ export type PredictionFilterType = {
 export type PredictionModelForm = Omit<PredictionModel, 'id'>
 
 export type PredictionsResponse = AxiosWithPagination<PredictionModel[]>
+export type PredictionsPublicResponse = AxiosWithPagination<PredictionModelNotNull[]>
 export type ScheduleResponse = AxiosWithPagination<SchedulePrediction[]>

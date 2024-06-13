@@ -2,29 +2,34 @@
 import AtomButton from '@/components/atoms/AtomButton.vue'
 import AtomIcon from '@/components/atoms/AtomIcon.vue'
 import { Icons } from '@/shared/enums/icon.enum'
+import type { SchedulePrediction } from '@/model/prediction.type'
 
-defineProps<{
-  lists: any[]
+const props = defineProps<{
+  lists: SchedulePrediction[]
+  schedule: string
+  total: number
+  page: number
 }>()
+// const canPrev = computed(() => props.page - 1)
+const emits = defineEmits(['prev', 'next', 'change'])
 </script>
 
 <template>
   <div class="date-list">
     <!-- pre -->
-    <AtomIcon :icon="Icons.ArrowLeft" class="date-list__prev flex-center" />
-
-    <!-- list -->
-    <!-- TODO KEY not from index that for test component -->
+    <AtomIcon @click="emits('prev')" :icon="Icons.ArrowLeft" class="date-list__prev flex-center" />
     <div class="date-list__lists">
       <AtomButton
-        :type="idx !== 2 ? 'secondary' : 'primary'"
-        v-for="(list, idx) in lists"
-        :key="idx"
-        ><p style="font-size: 12px">{{ idx + 1 }}/5</p></AtomButton
+        @click="emits('change', list)"
+        style="padding-top: 8px"
+        :type="list.label === schedule ? 'primary' : 'secondary'"
+        v-for="list in lists"
+        :key="list.label"
+        ><p style="font-size: 12px">{{ list.label }}</p></AtomButton
       >
     </div>
     <!-- next -->
-    <AtomIcon :icon="Icons.ArrowRight" class="date-list__next flex-center" />
+    <AtomIcon @click="emits('next')" :icon="Icons.ArrowRight" class="date-list__next flex-center" />
   </div>
 </template>
 

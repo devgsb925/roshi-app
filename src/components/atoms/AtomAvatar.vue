@@ -39,6 +39,7 @@ const titleNewLine = computed(() => props.title.replace(' ', '<br>'))
 .avatar .avatar-image img {
   width: 100%;
   height: 100%;
+  border-radius: 100%;
   object-fit: cover;
   object-position: center;
 }
