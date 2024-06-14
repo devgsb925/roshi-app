@@ -1,4 +1,4 @@
-import type { PaginationResponse, PaginationTableType } from '@/model/pagination.type'
+import type { PaginationTableType } from '@/model/pagination.type'
 import type { PredictionModelNotNull, SchedulePrediction } from '@/model/prediction.type'
 import { predictionPublicService } from '@/shared/services/api/prediction-public.service'
 import { notification } from 'ant-design-vue'
@@ -27,23 +27,8 @@ export const usePredictionStore = defineStore('counter', () => {
     }
   })
 
-  const pagination = ref<{
-    prediction: PaginationResponse
-    schedule: PaginationResponse
-  }>({
-    prediction: {
-      total: 0,
-      page: 0,
-      perPage: 0,
-      totalPages: 0
-    },
-    schedule: {
-      total: 0,
-      page: 0,
-      perPage: 0,
-      totalPages: 0
-    }
-  })
+  // const predictionTotalPage = ref(0)
+  const scheduleTotalPage = ref(0)
 
   const loading = ref(false)
 
@@ -52,10 +37,10 @@ export const usePredictionStore = defineStore('counter', () => {
     const { data, error, message } = await predictionPublicService.getAll(filters.value.prediction)
     if (error) return notification.error({ message })
 
-    pagination.value.prediction.page = data.pagination.page
-    pagination.value.prediction.perPage = data.pagination.perPage
-    pagination.value.prediction.totalPages = data.pagination.totalPages
-    pagination.value.prediction.total = data.pagination.total
+    // pagination.value.prediction.page = data.pagination.page
+    // pagination.value.prediction.perPage = data.pagination.perPage
+    // pagination.value.prediction.totalPages = data.pagination.totalPages
+    // pagination.value.prediction.total = data.pagination.total
     predictions.value = data.data
 
     loading.value = false
@@ -67,23 +52,20 @@ export const usePredictionStore = defineStore('counter', () => {
     )
     if (error) return notification.error({ message })
 
-    pagination.value.schedule.page = data.pagination.page
-    pagination.value.schedule.perPage = data.pagination.perPage
-    pagination.value.schedule.totalPages = data.pagination.totalPages
-    pagination.value.schedule.total = data.pagination.total
+    scheduleTotalPage.value = data.pagination.totalPages
     schedules.value = data.data
   }
 
   const onNextSchedule = async () => {
-    const hasNext = pagination.value.schedule.page < pagination.value.schedule.totalPages
+    const hasNext = filters.value.schedule.page < scheduleTotalPage.value
     if (hasNext) {
-      pagination.value.schedule.page++
+      filters.value.schedule.page++
       await onFetchSchedules()
     }
   }
   const onPrevSchedule = async () => {
-    if (pagination.value.schedule.page > 1) {
-      pagination.value.schedule.page--
+    if (filters.value.schedule.page > 1) {
+      filters.value.schedule.page--
       await onFetchSchedules()
     }
   }
@@ -99,7 +81,6 @@ export const usePredictionStore = defineStore('counter', () => {
     predictions,
     loading,
     schedules,
-    pagination,
     onFetchPredictions,
     filterPredictionScheduleChange
   }

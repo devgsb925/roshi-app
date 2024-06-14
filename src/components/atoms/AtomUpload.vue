@@ -120,7 +120,7 @@ const addFileListFromChange = () => {
 watch(
   () => props.fileName,
   (newVal, prev) => {
-    if (!count.value && newVal.length > prev.length) addFileListFromChange()
+    if (!count.value && newVal?.length > prev?.length) addFileListFromChange()
   }
 )
 

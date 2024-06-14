@@ -19,6 +19,8 @@ export type PredictionModel = {
   teamLeft: string | null
   teamRight: string | null
   links: string[]
+  teamLeftURL: string
+  teamRightURL: string
   reliability: number
   schedule: null | Date
   winner: string
@@ -37,6 +39,8 @@ export type PredictionModelNotNull = {
   links: string[]
   reliability: number
   schedule: Date
+  teamLeftURL: string
+  teamRightURL: string
   winner: string
   onPoint: boolean
   archive: boolean

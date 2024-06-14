@@ -22,6 +22,8 @@ const initForm = {
   reliability: 0,
   schedule: null,
   winner: '',
+  teamLeftURL: '',
+  teamRightURL: '',
   onPoint: false,
   archive: true
 }
@@ -45,6 +47,8 @@ const rules = reactive({
   teamRight: getDefaultRule(),
   reliability: getDefaultRule(),
   schedule: getDefaultRule(),
+  teamLeftURL: getDefaultRule(),
+  teamRightURL: getDefaultRule(),
   //
   winner: getDefaultRule(false),
   onPoint: getDefaultRule(false),
@@ -69,12 +73,21 @@ const teamSelectedOptions = computed(() => {
 })
 
 const uploadPosterRef = ref<InstanceType<typeof AtomUpload>>()
+const uploadTeamARef = ref<InstanceType<typeof AtomUpload>>()
+const uploadTeamBRef = ref<InstanceType<typeof AtomUpload>>()
+
 const onArchiveChange = () => {
   if (!props.id) return
   if (!formState.value.archive) return (rules.winner[0].required = true)
   rules.winner[0].required = false
 }
+
 const onReplaceForm = (prediction: PredictionModel) => {
+  //
+  formState.value.poster = prediction.poster ?? ''
+  formState.value.teamLeftURL = prediction.teamLeftURL ?? ''
+  formState.value.teamRightURL = prediction.teamRightURL ?? ''
+  //
   formState.value.poster = prediction.poster
   formState.value.oddDetail = prediction.oddDetail
   formState.value.introduction = prediction.introduction
@@ -91,6 +104,8 @@ const onReplaceForm = (prediction: PredictionModel) => {
 }
 const onFinish = async () => {
   await uploadPosterRef.value?.handleUpload()
+  await uploadTeamARef.value?.handleUpload()
+  await uploadTeamBRef.value?.handleUpload()
   emits('finish', formState.value)
 }
 
@@ -114,11 +129,23 @@ defineExpose({
           <!-- poster -->
           <a-col span="24">
             <a-form-item label="Poster" name="poster" has-feedback>
-              <!-- <a-input readonly v-model:value="" placeholder="input username" /> -->
               <AtomUpload ref="uploadPosterRef" v-model:fileName="formState.poster" />
             </a-form-item>
           </a-col>
-          <!-- teamLeft -->
+          <!-- teamLeftURL -->
+
+          <a-col span="12">
+            <a-form-item label="Logo-Team-A" name="teamLeftURL" has-feedback>
+              <AtomUpload ref="uploadTeamARef" v-model:fileName="formState.teamLeftURL" />
+            </a-form-item>
+          </a-col>
+
+          <!-- teamRightURL -->
+          <a-col span="12">
+            <a-form-item label="Logo-Team-B" name="teamRightURL" has-feedback>
+              <AtomUpload ref="uploadTeamBRef" v-model:fileName="formState.teamRightURL" />
+            </a-form-item>
+          </a-col>
           <a-col span="12">
             <a-form-item label="Team-A" name="teamLeft" has-feedback>
               <TeamSelector

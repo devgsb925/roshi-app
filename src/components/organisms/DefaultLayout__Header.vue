@@ -20,6 +20,7 @@ onBeforeMount(async () => await predictionStore.onFetchSchedules())
 <template>
   <header class="header-app">
     <LogoApp class="roshi-logo" />
+
     <DateList
       @prev="predictionStore.onPrevSchedule"
       @next="predictionStore.onNextSchedule"
