@@ -8,7 +8,7 @@ const predictionStore = usePredictionStore()
 
 const isFixed = ref(false)
 const handleScroll = () => {
-  if (window.scrollY >= 111) {
+  if (window.scrollY > 241) {
     isFixed.value = true
   } else {
     isFixed.value = false
@@ -26,6 +26,7 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
   <div class="background">
     <AtomLoading v-show="predictionStore.loading" />
     <DefaultLayoutHeader
+      class="header"
       :class="{
         fixed: isFixed
       }"
@@ -44,8 +45,13 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
   min-height: 100dvh;
 }
 
+.header {
+  transition: 0.3 all ease-in-out;
+}
+
 .fixed {
   position: fixed;
+
   padding-bottom: 24px;
 }
 </style>
