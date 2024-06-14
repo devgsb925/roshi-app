@@ -14,7 +14,6 @@ const props = defineProps<{
 const initForm = {
   poster: '',
   oddDetail: '',
-  introduction: '',
   roshiPrediction: '',
   teamLeft: null,
   links: ['', '', ''],
@@ -40,7 +39,6 @@ const getDefaultRule = (required = true, trigger: TriggerType[] = ['change', 'bl
 const rules = reactive({
   poster: getDefaultRule(true, ['blur']),
   oddDetail: getDefaultRule(),
-  introduction: getDefaultRule(),
   roshiPrediction: getDefaultRule(),
   teamLeft: getDefaultRule(),
   links: getDefaultRule(false),
@@ -90,7 +88,6 @@ const onReplaceForm = (prediction: PredictionModel) => {
   //
   formState.value.poster = prediction.poster
   formState.value.oddDetail = prediction.oddDetail
-  formState.value.introduction = prediction.introduction
   formState.value.roshiPrediction = prediction.roshiPrediction
   formState.value.teamLeft = prediction.teamLeft
   formState.value.links = prediction.links
@@ -102,6 +99,7 @@ const onReplaceForm = (prediction: PredictionModel) => {
   formState.value.archive = prediction.archive
   onArchiveChange()
 }
+
 const onFinish = async () => {
   await uploadPosterRef.value?.handleUpload()
   await uploadTeamARef.value?.handleUpload()
@@ -206,13 +204,6 @@ defineExpose({
           <a-col v-for="(_, index) in formState.links" :key="`link-${index}`" span="8">
             <a-form-item :label="`Link-${index + 1}`" :name="['links', index]">
               <a-input v-model:value="formState.links[index]" placeholder="" />
-            </a-form-item>
-          </a-col>
-
-          <!-- introduction -->
-          <a-col span="24">
-            <a-form-item label="Introduction" name="introduction" has-feedback>
-              <a-textarea v-model:value="formState.introduction" />
             </a-form-item>
           </a-col>
 

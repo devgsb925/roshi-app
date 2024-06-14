@@ -12,7 +12,7 @@ const props = defineProps<{
 }>()
 
 const schedule = computed(() => {
-  const schedule = new Date(props.prediction.schedule).toLocaleDateString()
+  const schedule = new Date(props.prediction.schedule).toLocaleString()
   const [date, time] = schedule.split(' ')
 
   return {
@@ -24,11 +24,11 @@ const schedule = computed(() => {
 const teamMatching = computed(() => {
   const teamA: PredictionTeamMatchProp = {
     title: props.prediction.teamLeft,
-    imageUrl: ''
+    imageUrl: props.prediction.teamLeftURL
   }
   const teamB: PredictionTeamMatchProp = {
     title: props.prediction.teamRight,
-    imageUrl: ''
+    imageUrl: props.prediction.teamRightURL
   }
   return {
     teamA,
@@ -49,7 +49,7 @@ const teamMatching = computed(() => {
     <PredictionTeamMatch :team-a="teamMatching.teamA" :team-b="teamMatching.teamB" />
     <PredictionContent
       :oddDetail="prediction.oddDetail"
-      :introduction="prediction.introduction"
+      :roshiPrediction="prediction.roshiPrediction"
       :reliability="prediction.reliability"
       :links="prediction.links"
     />

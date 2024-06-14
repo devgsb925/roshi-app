@@ -22,6 +22,7 @@ class PredictionService {
     }
     return res
   }
+
   async update(id: string, body: PredictionModelForm) {
     const res: IServiceResultData<string> = {
       data: '',
@@ -38,6 +39,7 @@ class PredictionService {
     }
     return res
   }
+
   async del(id: string) {
     const res: IServiceResultData<string> = {
       data: '',
@@ -81,13 +83,13 @@ class PredictionService {
     }
     return res
   }
+
   async getOne(id: string) {
     const res: IServiceResultData<PredictionModel> = {
       data: {
         id: '',
         poster: '',
         oddDetail: '',
-        introduction: '',
         roshiPrediction: '',
         teamLeft: null,
         teamRight: null,
@@ -96,7 +98,9 @@ class PredictionService {
         schedule: null,
         winner: '',
         onPoint: false,
-        archive: false
+        archive: false,
+        teamLeftURL: '',
+        teamRightURL: ''
       },
       message: '',
       error: false

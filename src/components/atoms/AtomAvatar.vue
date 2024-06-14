@@ -32,7 +32,7 @@ const titleNewLine = computed(() => props.title.replace(' ', '<br>'))
   flex-shrink: 0;
   margin: 0 auto;
   border-radius: 100%;
-  padding: 12px;
+  padding: 4px;
   background-color: var(--color-white);
 }
 

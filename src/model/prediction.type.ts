@@ -14,7 +14,6 @@ export type PredictionModel = {
   id: string
   poster: string
   oddDetail: string
-  introduction: string
   roshiPrediction: string
   teamLeft: string | null
   teamRight: string | null
@@ -32,7 +31,6 @@ export type PredictionModelNotNull = {
   id: string
   poster: string
   oddDetail: string
-  introduction: string
   roshiPrediction: string
   teamLeft: string
   teamRight: string

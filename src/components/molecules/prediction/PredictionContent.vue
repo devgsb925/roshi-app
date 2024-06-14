@@ -4,7 +4,7 @@ import AtomBreadcrumb from '@/components/atoms/AtomBreadcrumb.vue'
 defineProps<{
   links: string[]
   reliability: number
-  introduction: string
+  roshiPrediction: string
   oddDetail: string
 }>()
 </script>
@@ -24,7 +24,7 @@ defineProps<{
     <AtomBreadcrumb class="prediction-content-link_list" :links="links" />
     <!-- Description -->
     <h3 class="prediction-content-description">
-      {{ introduction }}
+      {{ roshiPrediction }}
     </h3>
   </div>
 </template>

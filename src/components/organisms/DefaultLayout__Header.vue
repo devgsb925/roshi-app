@@ -36,6 +36,8 @@ onBeforeMount(async () => await predictionStore.onFetchSchedules())
   padding: 10px 6px 0 6px;
   position: sticky;
   margin-bottom: 24px;
+  width: 100%;
+  background-color: var(--color-background);
 }
 
 .header-app .roshi-logo {
