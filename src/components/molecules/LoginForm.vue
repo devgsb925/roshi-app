@@ -7,8 +7,8 @@ defineProps({
   }
 })
 const formState = reactive({
-  username: 'mack-vi',
-  password: 'fAAiv53c8K5Y'
+  username: '',
+  password: ''
 })
 
 const emits = defineEmits(['finish'])
